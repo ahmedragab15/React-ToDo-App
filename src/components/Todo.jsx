@@ -4,7 +4,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CreateIcon from "@mui/icons-material/Create";
 
-const Todo = ({ id, title, description, isCompleted, deleteTaskHandler, toggleCompletedHandler, openEditModal }) => {
+const Todo = ({ todo, deleteTaskHandler, toggleCompletedHandler, openEditModal }) => {
+  const { id, header: title, body: description, isCompleted } = todo;
   return (
     <Card
       id={id}
@@ -34,7 +35,7 @@ const Todo = ({ id, title, description, isCompleted, deleteTaskHandler, toggleCo
               {description}
             </Typography>
           </Grid>
-          <Grid size={{ xs: 12, sm: 4 }} sx={{ display: "flex", gap: 1, justifyContent:"center"}}>
+          <Grid size={{ xs: 12, sm: 4 }} sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
             <IconButton aria-label="check" className="iconBtn" sx={{ bgcolor: isCompleted ? "#8bc34a" : "#fff", color: isCompleted ? "#fff" : "#8bc34a", border: "3px solid #8bc34a" }} onClick={() => toggleCompletedHandler(id)}>
               <CheckIcon />
             </IconButton>

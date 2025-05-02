@@ -121,8 +121,7 @@ const toggleCompletedHandler = (id) => {
   const tasksListRendring =
     visibleTasks.length > 0 ? (
       visibleTasks.map((item) => {
-        const { id, header, body, isCompleted } = item;
-        return <Todo key={id} id={id} title={header} description={body} isCompleted={isCompleted} deleteTaskHandler={deleteTaskHandler} toggleCompletedHandler={toggleCompletedHandler} openEditModal={() => openEditModal(item)} />;
+        return <Todo key={item.id} todo={item} deleteTaskHandler={deleteTaskHandler} toggleCompletedHandler={toggleCompletedHandler} openEditModal={() => openEditModal(item)} />;
       })
     ) : (
       <Typography sx={{ padding: 3, color: "#777", fontSize: 18 }}> لا توجد مهام حالياً قم باضافة مهمة جديدة</Typography>
