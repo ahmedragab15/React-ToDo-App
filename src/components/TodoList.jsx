@@ -14,7 +14,7 @@ const initialTodos = {
   },
 };
 
-function TodoList() {
+const TodoList = () => {
   const [tasksTabs, setTasksTabs] = useState(() => {
     const savedTodos = localStorage.getItem("Saved Todos");
     return savedTodos ? JSON.parse(savedTodos) : initialTodos;
@@ -29,37 +29,41 @@ function TodoList() {
     localStorage.setItem("Saved Todos", JSON.stringify(tasksTabs));
   }, [tasksTabs]);
 
-  const activeTapHandler = (e) => {
-    setActiveTab(e.target.value);
-  };
-
   const addTaskHandler = () => {
     if (!newTask.header.trim()) return toast.error("قم بكتابة عنوان المهمة");
     if (!newTask.body.trim()) return toast.error("قم بكتابة وصف المهمة");
 
-    const updatedTasksTaps = { ...tasksTabs };
-    updatedTasksTaps["all"].items.push({
+    const updatedTasksTabs = { ...tasksTabs };
+    updatedTasksTabs["all"].items.push({
       id: crypto.randomUUID(),
       header: newTask.header,
       body: newTask.body,
       isCompleted: false,
     });
-    setTasksTabs(updatedTasksTaps);
+    setTasksTabs(updatedTasksTabs);
     setNewTask({ header: "", body: "" });
     toast.success("تمت إضافة المهمة");
   };
 
   const deleteTaskHandler = (id) => {
-    const updated = { ...tasksTabs };
-    updated.all.items = updated.all.items.filter((item) => item.id !== id);
-    setTasksTabs(updated);
+    const updatedTasksTabs = { ...tasksTabs };
+    updatedTasksTabs.all.items = updatedTasksTabs.all.items.filter((item) => item.id !== id);
+    setTasksTabs(updatedTasksTabs);
     toast.success("تم حذف المهمة");
   };
-
+  /*
+const toggleCompletedHandler = (id) => {
+  const updatedTasksTabs = { ...tasksTabs };
+  updatedTasksTabs.all.items = updatedTasksTabs.all.items.map((item) =>
+    item.id === id ? { ...item, isCompleted: !item.isCompleted } : item
+  );
+  setTasksTabs(updatedTasksTabs);
+};
+*/
   const toggleCompletedHandler = (id) => {
-    const updated = { ...tasksTabs };
+    const updatedTasksTabs = { ...tasksTabs };
     let updatedTask;
-    updated.all.items = updated.all.items.map((item) => {
+    updatedTasksTabs.all.items = updatedTasksTabs.all.items.map((item) => {
       if (item.id === id) {
         const newItem = { ...item, isCompleted: !item.isCompleted };
         updatedTask = newItem;
@@ -67,7 +71,7 @@ function TodoList() {
       }
       return item;
     });
-    setTasksTabs(updated);
+    setTasksTabs(updatedTasksTabs);
     if (updatedTask) {
       toast.success(updatedTask.isCompleted ? "تم انجاز المهمة" : "لم تنجز المهمة");
     }
@@ -83,39 +87,40 @@ function TodoList() {
     if (!editTask.header.trim()) return toast.error("العنوان لا يمكن أن يكون فارغًا");
     if (!editTask.body.trim()) return toast.error("الوصف لا يمكن أن يكون فارغًا");
 
-    const updated = { ...tasksTabs };
-    updated.all.items = updated.all.items.map((item) => (item.id === taskToEdit.id ? { ...item, header: editTask.header, body: editTask.body } : item));
+    const updatedTasksTabs = { ...tasksTabs };
+    updatedTasksTabs.all.items = updatedTasksTabs.all.items.map((item) => (item.id === taskToEdit.id ? { ...item, header: editTask.header, body: editTask.body } : item));
 
-    setTasksTabs(updated);
+    setTasksTabs(updatedTasksTabs);
     toast.success("تم التعديل");
     setIsEditOpen(false);
   };
 
+  const tabLabels = {
+    all: "الكل",
+    finshed: "منجز",
+    unfinshed: "غير منجز",
+  };
+
   const tabButtonsRendring = ["all", "finshed", "unfinshed"].map((key) => (
-    <ToggleButton key={key} value={key} aria-label={key} color="success" sx={{ fontSize: 16, fontWeight: 600 }}>
-      {
-        {
-          all: "الكل",
-          finshed: "منجز",
-          unfinshed: "غير منجز",
-        }[key]
-      }
+    <ToggleButton key={key} value={key} aria-label={key} color="primary" sx={{ fontSize: 16, fontWeight: 600 }}>
+      {tabLabels[key]}
     </ToggleButton>
   ));
 
-  const getVisibleItems = () => {
-    const allItems = tasksTabs.all.items;
+  const getVisibleTasks = () => {
+    const allTasks = tasksTabs.all.items;
     if (activeTab === "finshed") {
-      return allItems.filter((item) => item.isCompleted);
+      return allTasks.filter((item) => item.isCompleted);
     } else if (activeTab === "unfinshed") {
-      return allItems.filter((item) => !item.isCompleted);
+      return allTasks.filter((item) => !item.isCompleted);
     }
-    return allItems;
+    return allTasks;
   };
 
-  const visibleItems = getVisibleItems();
-  const tasksListRendring = visibleItems.length > 0 ? (
-      visibleItems.map((item) => {
+  const visibleTasks = getVisibleTasks();
+  const tasksListRendring =
+    visibleTasks.length > 0 ? (
+      visibleTasks.map((item) => {
         const { id, header, body, isCompleted } = item;
         return <Todo key={id} id={id} title={header} description={body} isCompleted={isCompleted} deleteTaskHandler={deleteTaskHandler} toggleCompletedHandler={toggleCompletedHandler} openEditModal={() => openEditModal(item)} />;
       })
@@ -132,7 +137,7 @@ function TodoList() {
               مهامي
             </Typography>
             <Divider />
-            <ToggleButtonGroup value={activeTab} exclusive onChange={activeTapHandler} aria-label="Active-Tap" sx={{ marginTop: 3 }}>
+            <ToggleButtonGroup value={activeTab} onChange={(e) => setActiveTab(e.target.value)} exclusive aria-label="Active-Tap" sx={{ marginTop: 3 }}>
               {tabButtonsRendring}
             </ToggleButtonGroup>
           </CardContent>
@@ -176,6 +181,6 @@ function TodoList() {
       </Modal>
     </>
   );
-}
+};
 
 export default TodoList;
