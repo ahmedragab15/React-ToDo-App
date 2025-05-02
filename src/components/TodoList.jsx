@@ -138,11 +138,11 @@ function TodoList() {
           </CardContent>
           {tasksListRendring}
           <Grid container margin={2} spacing={2}>
-            <Grid size={8} display={"flex"} gap={1}>
+            <Grid size={{ xs: 12, sm: 8 }} display={"flex"} gap={1}>
               <TextField fullWidth label="عنوان المهمة" variant="outlined" value={newTask.header} onChange={(e) => setNewTask({ ...newTask, header: e.target.value })} onKeyUp={(e) => e.key === "Enter" && addTaskHandler()} />
               <TextField fullWidth label="وصف المهمة" variant="outlined" value={newTask.body} onChange={(e) => setNewTask({ ...newTask, body: e.target.value })} onKeyUp={(e) => e.key === "Enter" && addTaskHandler()} />
             </Grid>
-            <Grid size={4}>
+            <Grid size={{ xs: 12, sm: 4 }}>
               <Button fullWidth sx={{ height: "100%" }} variant="contained" onClick={addTaskHandler}>
                 اضافة
               </Button>
