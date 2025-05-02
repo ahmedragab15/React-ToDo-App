@@ -1,12 +1,27 @@
-# React + Vite
+# ✅ React Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive **Todo List App** built using **React** and **Material UI (MUI)**. This app helps users manage their daily tasks with a clean interface, real-time interactivity, and persistent data storage.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React** – Frontend library  
+- **Material UI (MUI)** – Component-based design system  
+- **Local Storage** – To persist todos across sessions
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✅ Add new tasks  
+✅ Edit existing tasks  
+✅ Mark tasks as completed or uncompleted  
+✅ Delete individual tasks  
+✅ Filter tasks (All / Completed / Uncompleted)  
+✅ Responsive design using MUI Grid & Layout system  
+✅ Data stored in localStorage  
+
+## 📸 Preview
+
+![Todo App Screenshot](./src/assets/preview.png)
+
+## 🚀 Live Demo
+
+[🔗 View Live Demo](https://react-todo-15.netlify.app)

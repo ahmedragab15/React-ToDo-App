@@ -10,7 +10,7 @@ const Todo = ({ id, title, description, isCompleted, deleteTaskHandler, toggleCo
       id={id}
       variant="outlined"
       sx={{
-        minWidth: 275,
+        Width: 275,
         maxWidth: "98%",
         borderRadius: 1,
         marginBlock: 1,
@@ -19,23 +19,22 @@ const Todo = ({ id, title, description, isCompleted, deleteTaskHandler, toggleCo
         bgcolor: "#283593",
         transition: "0.3s",
         "&:hover": {
-          bgcolor: "#283580",
-          paddingBlock: 1,
+          bgcolor: "#283463",
           boxShadow: "0px 7px 7px rgb(0, 0, 0,0.4)",
         },
       }}
     >
       <CardContent>
-        <Grid container spacing={2} alignItems={"center"}>
-          <Grid size={8}>
-            <Typography variant="h5" align="right">
+        <Grid container alignItems={"center"} justifyContent={"space-between"}>
+          <Grid size={{ xs: 12, sm: 8 }}>
+            <Typography variant="h5" align="right" sx={{ textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }} title={title}>
               {title}
             </Typography>
-            <Typography variant="h6" align="right">
+            <Typography variant="h6" align="right" sx={{ textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }} title={description}>
               {description}
             </Typography>
           </Grid>
-          <Grid size={4} sx={{ display: "flex", gap: 1 }}>
+          <Grid size={{ xs: 12, sm: 4 }} sx={{ display: "flex", gap: 1, justifyContent:"center"}}>
             <IconButton aria-label="check" className="iconBtn" sx={{ bgcolor: isCompleted ? "#8bc34a" : "#fff", color: isCompleted ? "#fff" : "#8bc34a", border: "3px solid #8bc34a" }} onClick={() => toggleCompletedHandler(id)}>
               <CheckIcon />
             </IconButton>
