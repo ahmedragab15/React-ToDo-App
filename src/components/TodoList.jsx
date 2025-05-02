@@ -130,7 +130,7 @@ const toggleCompletedHandler = (id) => {
   return (
     <>
       <Container maxWidth="sm">
-        <Card variant="outlined" sx={{ minWidth: 275, textAlign: "center" }}>
+        <Card variant="outlined" sx={{ minWidth: 275, textAlign: "center",maxHeight:"80vh",overflow:"auto" }}>
           <CardContent>
             <Typography variant="h1" sx={{ fontSize: 48, fontWeight: 600 }}>
               مهامي

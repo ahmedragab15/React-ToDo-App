@@ -17,10 +17,10 @@ const Todo = ({ todo, deleteTaskHandler, toggleCompletedHandler, openEditModal }
         marginBlock: 1,
         marginInline: "auto",
         color: "#fff",
-        bgcolor: "#283593",
+        bgcolor: isCompleted ? "#154030" : "#283593",
         transition: "0.3s",
         "&:hover": {
-          bgcolor: "#283463",
+          bgcolor: isCompleted ? "#153030" : "#283463",
           boxShadow: "0px 7px 7px rgb(0, 0, 0,0.4)",
         },
       }}
@@ -28,10 +28,10 @@ const Todo = ({ todo, deleteTaskHandler, toggleCompletedHandler, openEditModal }
       <CardContent>
         <Grid container alignItems={"center"} justifyContent={"space-between"}>
           <Grid size={{ xs: 12, sm: 8 }}>
-            <Typography variant="h5" align="right" sx={{ textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }} title={title}>
+            <Typography variant="h5" align="right" sx={{ textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden"}} title={title}>
               {title}
             </Typography>
-            <Typography variant="h6" align="right" sx={{ textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }} title={description}>
+            <Typography variant="h6" align="right" sx={{ textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden"}} title={description}>
               {description}
             </Typography>
           </Grid>
