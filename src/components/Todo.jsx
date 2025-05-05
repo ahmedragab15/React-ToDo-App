@@ -4,7 +4,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CreateIcon from "@mui/icons-material/Create";
 
-const Todo = ({ todo, deleteTaskHandler, toggleCompletedHandler, openEditModal }) => {
+const Todo = React.memo(({ todo, deleteTaskHandler, toggleCompletedHandler, openEditModal }) => {
   const { id, header: title, body: description, isCompleted } = todo;
   return (
     <Card
@@ -50,6 +50,6 @@ const Todo = ({ todo, deleteTaskHandler, toggleCompletedHandler, openEditModal }
       </CardContent>
     </Card>
   );
-};
+});
 
 export default Todo;

@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, Container, Divider, Grid, Modal, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Todo from "./Todo";
 import toast from "react-hot-toast";
 
@@ -45,12 +45,15 @@ const TodoList = () => {
     toast.success("تمت إضافة المهمة");
   };
 
-  const deleteTaskHandler = (id) => {
-    const updatedTasksTabs = { ...tasksTabs };
-    updatedTasksTabs.all.items = updatedTasksTabs.all.items.filter((item) => item.id !== id);
-    setTasksTabs(updatedTasksTabs);
-    toast.success("تم حذف المهمة");
-  };
+  const deleteTaskHandler = useCallback(
+    (id) => {
+      const updatedTasksTabs = { ...tasksTabs };
+      updatedTasksTabs.all.items = updatedTasksTabs.all.items.filter((item) => item.id !== id);
+      setTasksTabs(updatedTasksTabs);
+      toast.success("تم حذف المهمة");
+    },
+    [tasksTabs]
+  );
   /*
 const toggleCompletedHandler = (id) => {
   const updatedTasksTabs = { ...tasksTabs };
@@ -60,28 +63,31 @@ const toggleCompletedHandler = (id) => {
   setTasksTabs(updatedTasksTabs);
 };
 */
-  const toggleCompletedHandler = (id) => {
-    const updatedTasksTabs = { ...tasksTabs };
-    let updatedTask;
-    updatedTasksTabs.all.items = updatedTasksTabs.all.items.map((item) => {
-      if (item.id === id) {
-        const newItem = { ...item, isCompleted: !item.isCompleted };
-        updatedTask = newItem;
-        return newItem;
+  const toggleCompletedHandler = useCallback(
+    (id) => {
+      const updatedTasksTabs = { ...tasksTabs };
+      let updatedTask;
+      updatedTasksTabs.all.items = updatedTasksTabs.all.items.map((item) => {
+        if (item.id === id) {
+          const newItem = { ...item, isCompleted: !item.isCompleted };
+          updatedTask = newItem;
+          return newItem;
+        }
+        return item;
+      });
+      setTasksTabs(updatedTasksTabs);
+      if (updatedTask) {
+        toast.success(updatedTask.isCompleted ? "تم انجاز المهمة" : "لم تنجز المهمة");
       }
-      return item;
-    });
-    setTasksTabs(updatedTasksTabs);
-    if (updatedTask) {
-      toast.success(updatedTask.isCompleted ? "تم انجاز المهمة" : "لم تنجز المهمة");
-    }
-  };
+    },
+    [tasksTabs]
+  );
 
-  const openEditModal = (task) => {
+  const openEditModal = useCallback((task) => {
     setTaskToEdit(task);
     setEditTask({ header: task.header, body: task.body });
     setIsEditOpen(true);
-  };
+  }, []);
 
   const saveEditedTask = () => {
     if (!editTask.header.trim()) return toast.error("العنوان لا يمكن أن يكون فارغًا");
@@ -118,19 +124,20 @@ const toggleCompletedHandler = (id) => {
   };
 
   const visibleTasks = getVisibleTasks();
-  const tasksListRendring =
-    visibleTasks.length > 0 ? (
+  const tasksListRendring = useMemo(() => {
+    return visibleTasks.length > 0 ? (
       visibleTasks.map((item) => {
         return <Todo key={item.id} todo={item} deleteTaskHandler={deleteTaskHandler} toggleCompletedHandler={toggleCompletedHandler} openEditModal={() => openEditModal(item)} />;
       })
     ) : (
       <Typography sx={{ padding: 3, color: "#777", fontSize: 18 }}> لا توجد مهام حالياً قم باضافة مهمة جديدة</Typography>
     );
+  }, [visibleTasks, deleteTaskHandler, toggleCompletedHandler, openEditModal]);
 
   return (
     <>
       <Container maxWidth="sm">
-        <Card variant="outlined" sx={{ minWidth: 275, textAlign: "center",maxHeight:"80vh",overflow:"auto" }}>
+        <Card variant="outlined" sx={{ minWidth: 275, textAlign: "center", maxHeight: "80vh", overflow: "auto" }}>
           <CardContent>
             <Typography variant="h1" sx={{ fontSize: 48, fontWeight: 600 }}>
               مهامي
